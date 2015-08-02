@@ -55,9 +55,14 @@ export default Ember.Component.extend({
   didReceiveAttrs() {
     // Reset cells when cell layout or items array changes
     var cellLayout = this.attrs['cell-layout'];
-    var items = this.attrs['items'];
+    var items = this.getAttr('items');
     var contentWidth = this.getAttr('width');
     var contentHeight = this.getAttr('height');
+
+    if (!Array.isArray(items) && items.toArray)
+    {
+      items = items.toArray();
+    }
 
     if (this.cellLayout !== cellLayout || this.items !== items) {
       this.items = items;
@@ -117,16 +122,17 @@ export default Ember.Component.extend({
   //   }
   // },
   willRender() {
-    this.cellLayout.length = this.getAttr('items').length;
+    var items = this.get('items');
+    var itemsLength = items.length;
+    this.cellLayout.length = itemsLength;
 
     var priorMap = this.cellMap;
     var cellMap = Object.create(null);
 
     var index = this.cellLayout.indexAt(this.offsetX, this.offsetY, this.width, this.height);
     var count = this.cellLayout.count(this.offsetX, this.offsetY, this.width, this.height);
-    var items = this.getAttr('items');
     index = Math.max(index - this.buffer, 0);
-    count = Math.min(count + this.buffer, Ember.get(items, 'length') - index);
+    count = Math.min(count + this.buffer, itemsLength - index);
     var i, pos, width, height, style, itemIndex, itemKey, cell;
 
     var newItems = [];
