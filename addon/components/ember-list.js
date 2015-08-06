@@ -26,7 +26,7 @@ class Cell {
 }
 
 function formatStyle(pos, width, height) {
-  return 'position: absolute; top: 0; left: 0; -webkit-transform: translate('+pos.x+'px, '+pos.y+'px); width: '+width+'px; height: '+height+'px;';
+  return 'position: absolute; top: 0; left: 0; -webkit-transform: translate('+pos.x+'px, '+pos.y+'px); -moz-transform: translate('+pos.x+'px, '+pos.y+'px); transform: translate('+pos.x+'px, '+pos.y+'px); width: '+width+'px; height: '+height+'px;';
 }
 
 export default Ember.Component.extend({
@@ -190,6 +190,8 @@ export default Ember.Component.extend({
     this.element.style.overflow = 'scroll';
     this.element.style.webkitOverflowScrolling = 'touch';
     this.element.style.webkitTransform = 'translate3d(0px, 0px, 0px) scale(1)';
+    this.element.style.mozTransform = 'translate3d(0px, 0px, 0px) scale(1)';
+    this.element.style.transform = 'translate3d(0px, 0px, 0px) scale(1)';
     this.element.style.position = 'relative';
     this.element.style.boxSizing = 'border-box';
     if (this.width > 0) {
