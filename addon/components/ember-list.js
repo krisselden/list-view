@@ -45,6 +45,7 @@ export default Ember.Component.extend({
     this.cellMap = Object.create(null);
   },
   didInitAttrs() {
+    this._super();
     this.buffer = this.attrs['buffer'] | 5;
     this.offsetX = this.attrs['offset-x'] | 0;
     this.offsetY = this.attrs['offset-y'] | 0;
