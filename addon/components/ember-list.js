@@ -53,6 +53,7 @@ export default Ember.Component.extend({
   },
 
   didReceiveAttrs() {
+    var calculateSize = false;
     // Reset cells when cell layout or items array changes
     var cellLayout = this.attrs['cell-layout'];
     var items = this.attrs['items'];
@@ -62,13 +63,18 @@ export default Ember.Component.extend({
     if (this.cellLayout !== cellLayout || this.items !== items) {
       this.items = items;
       this.cellLayout = cellLayout;
+      calculateSize = true;
     }
 
     if (contentWidth !== this.width || contentHeight !== this.height) {
       this.width = contentWidth;
       this.height = contentHeight;
       this.calculateBounds();
-      this.calculateContentSize();
+      calculateSize = true;
+    }
+
+    if (calculateSize) {
+      Ember.run.scheduleOnce('afterRender', this, 'calculateContentSize');
     }
   },
 
